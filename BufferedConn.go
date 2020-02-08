@@ -6,7 +6,7 @@ import (
 )
 
 // NewBufferedConn creates a new connection with buffered write based on underlying connection
-func NewBufferedConn(conn net.Conn, readBufferSize, writeBufferSize int) net.Conn {
+func NewBufferedConn(conn net.Conn, readBufferSize, writeBufferSize int) FlushableConn {
 	bc := &bufferedConn{
 		Conn:      conn,
 		bufReader: bufio.NewReaderSize(conn, readBufferSize),
