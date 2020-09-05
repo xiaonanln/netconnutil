@@ -3,6 +3,7 @@ package netconnutil
 import (
 	"bufio"
 	"net"
+	"sync"
 )
 
 // NewBufferedConn creates a new connection with buffered write based on underlying connection
@@ -20,6 +21,7 @@ type bufferedConn struct {
 	net.Conn
 	bufReader *bufio.Reader
 	bufWriter *bufio.Writer
+	flushLock sync.Mutex
 }
 
 // Read
@@ -37,7 +39,9 @@ func (bc *bufferedConn) Close() error {
 }
 
 func (bc *bufferedConn) Flush() error {
+	bc.flushLock.Lock()
 	err := bc.bufWriter.Flush()
+	bc.flushLock.Unlock()
 	if err != nil {
 		return err
 	}

@@ -75,7 +75,7 @@ func (ts *testServer) serveTCPConn(conn net.Conn) {
 		conn = NewBufferedConn(conn, 8192, 8192)
 	}
 
-	var expectVal uint64 = 0;
+	var expectVal uint64 = 0
 	var b [sendDataSize]byte
 	for {
 		n, err := io.ReadFull(conn, b[:])
